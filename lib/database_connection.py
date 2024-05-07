@@ -1,4 +1,6 @@
-import os, psycopg
+import os
+import psycopg
+
 from flask import g
 from psycopg.rows import dict_row
 
@@ -25,7 +27,7 @@ class DatabaseConnection:
                 row_factory=dict_row)
         except psycopg.OperationalError:
             raise Exception(f"Couldn't connect to the database {self._database_name()}! " \
-                    f"Did you create it using `createdb {self._database_name()}`?")
+                            f"Did you create it using `createdb {self._database_name()}`?")
 
     # This method seeds the database with the given SQL file.
     # We use it to set up our database ready for our tests or application.
@@ -51,10 +53,10 @@ class DatabaseConnection:
             return result
 
     CONNECTION_MESSAGE = '' \
-        'DatabaseConnection.exec_params: Cannot run a SQL query as ' \
-        'the connection to the database was never opened. Did you ' \
-        'make sure to call first the method DatabaseConnection.connect` ' \
-        'in your app.py file (or in your tests)?'
+                         'DatabaseConnection.exec_params: Cannot run a SQL query as ' \
+                         'the connection to the database was never opened. Did you ' \
+                         'make sure to call first the method DatabaseConnection.connect` ' \
+                         'in your app.py file (or in your tests)?'
 
     # This private method checks that we're connected to the database.
     def _check_connection(self):
@@ -67,6 +69,7 @@ class DatabaseConnection:
             return self.TEST_DATABASE_NAME
         else:
             return self.DEV_DATABASE_NAME
+
 
 # This function integrates with Flask to create one database connection that
 # Flask request can use. To see how to use it, look at example_routes.py
