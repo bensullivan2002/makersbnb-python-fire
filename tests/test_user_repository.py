@@ -17,8 +17,8 @@ When I use check_email_valid I get True if email already exists
 def test_get_user_back_based_on_email(db_connection):
     db_connection.seed('seeds/makersbnb_fire.sql')
     user_repository = UserRepository(db_connection)
-    result = user_repository.check_email_valid('example2@hotmail.com')
-    result2 = user_repository.check_email_valid('wrongemailhotmail.com')
+    result = user_repository.check_email_valid('ben@gmail.com')
+    result2 = user_repository.check_email_valid('wrongemail@hotmail.com')
     assert result == True
     assert result2 == False
 
@@ -36,6 +36,15 @@ def test_find_user_from_email(db_connection):
 When we use login, if username and password match 
 """
 
+"""
+When we sign up, a user is added to the database 
+"""
+def test_sign_up_adds_database(db_connection):
+    db_connection.seed('seeds/makersbnb_fire.sql')
+    user_repository = UserRepository(db_connection)
+    user = user_repository.create(User(None, 'james@gmail.com', 'Password555!', 'James', 'Rumble', '07895687912'))
+    users = user_repository.all()
+    assert users == [User(1, 'ben@gmail.com', 'Password123!', 'Ben', 'Sullivan', '07223487567'), User(2, 'angelica@gmail.com', 'Password567!', 'Angelica', 'Gottlieb', '07895687907'), User(3, 'james@gmail.com', 'Password555!', 'James', 'Rumble', '07895687912')]
 
 # """
 # When I use check_password_matches_email I get True if password matches email
