@@ -1,0 +1,43 @@
+main {
+    width: 95%;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+}
+
+.spaces-banner {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 60%;
+    margin-bottom: 50px;
+}
+
+.spaces-banner p {
+    width: 50%;
+}
+
+
+.date-filter-panel {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.search-results {
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+    border: 4px solid black;
+}
+
+.result {
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border: 4px solid black; 
+    border-radius: 5px;
+}
