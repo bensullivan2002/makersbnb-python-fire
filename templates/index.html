@@ -8,8 +8,44 @@
             If you're wondering how the CSS file below is being loaded.
         -->
         <link rel="stylesheet" href="/static/style.css" >
+        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/base_styling.css">
+        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/index.css">
     </head>
     <body>
-        <p>This is the homepage.</p>
+        <nav class="navbar">
+            <img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo" class="logo">
+            <div class="nav-links">
+                <a href="https://MakersBnB.com/About" class="nav-link">About</a>
+                <a href="https://MakersBnB.com/Login" class="nav-link">Login</a>
+            <div>
+        </nav>
+        <main>
+            <section class="welcome-banner">
+                <h1>Feel at home, anywhere</h1>
+                <p>Welcome to MakersBnB, where adventure meets comfort! Whether you're seeking a cozy urban loft, 
+                    a secluded countryside cottage, or a beachfront paradise, we've got you covered. Our platform connects travelers 
+                    with unique accommodations hosted by locals, ensuring authentic experiences wherever you go. Discover your home 
+                    away from home with MakersBnB today!</p>
+            </section>
+            <section class="sign-up-form">
+                <h3>Sign up to MakersBnB</h3>
+                <form action="submit.py" method="post" class="form">
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="'email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password-confirm">Confirm Password:</label>
+                        <input type="password" id="password-confirm" name="password-confirm" required>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </section>
+                
+        </main>
     </body>
 </html>

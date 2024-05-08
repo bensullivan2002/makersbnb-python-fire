@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB - Login</title>
+
+        <!--
+            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+        <link rel="stylesheet" href="/static/style.css" >
+        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/base_styling.css">
+        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/login.css">
+    </head>
+    <body>
+        <nav class="navbar">
+            <a href="https://MakersBnB.com/Index"><img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo" class="logo"></a>
+            <div class="nav-links">
+                <a href="https://MakersBnB.com/About" class="nav-link">About</a>
+                <a href="https://MakersBnB.com/Index" class="nav-link">Sign Up</a>
+            <div>
+        </nav>
+        <main>
+            <section class="login-banner">
+                <h3>Log in to MakersBnB</h3>
+            </section>
+            <form action="submit.py" method="post" class="form">
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="'email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <br>
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    </body>
