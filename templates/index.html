@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-GB">
     <head>
         <title>MakersBnB</title>
 
@@ -7,9 +7,9 @@
             Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
             If you're wondering how the CSS file below is being loaded.
         -->
-        <link rel="stylesheet" href="/static/style.css" >
-        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/base_styling.css">
-        <link rel="stylesheet" href="/makersbnb-python-fire/templates/styles/index.css">
+        <link rel="stylesheet" href="../static/style.css" >
+        <link rel="stylesheet" href="../static/base_styling.css">
+        <link rel="stylesheet" href="../static/index.css">
     </head>
     <body>
         <nav class="navbar">
@@ -17,14 +17,17 @@
             <div class="nav-links">
                 <a href="https://MakersBnB.com/About" class="nav-link">About</a>
                 <a href="https://MakersBnB.com/Login" class="nav-link">Login</a>
-            <div>
+            </div>
         </nav>
         <main>
             <section class="welcome-banner">
                 <h1>Feel at home, anywhere</h1>
-                <p>Welcome to MakersBnB, where adventure meets comfort! Whether you're seeking a cozy urban loft, 
-                    a secluded countryside cottage, or a beachfront paradise, we've got you covered. Our platform connects travelers 
-                    with unique accommodations hosted by locals, ensuring authentic experiences wherever you go. Discover your home 
+                <p>Welcome to MakersBnB, where adventure meets comfort!
+                  Whether you're seeking a cosy urban loft,
+                    a secluded countryside cottage, or a beachfront paradise, we've got you covered.
+                  Our platform connects travellers
+                    with unique accommodations hosted by locals, ensuring authentic experiences wherever you go.
+                  Discover your home
                     away from home with MakersBnB today!</p>
             </section>
             <section class="sign-up-form">
@@ -32,7 +35,7 @@
                 <form action="submit.py" method="post" class="form">
                     <div class="form-group">
                         <label for="email">Email Address:</label>
-                        <input type="email" id="'email" name="email" required>
+                        <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
@@ -41,6 +44,18 @@
                     <div class="form-group">
                         <label for="password-confirm">Confirm Password:</label>
                         <input type="password" id="password-confirm" name="password-confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="first-name">First name:</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Surname:</label>
+                        <input type="text" id="surname" name="surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone-number">Phone number:</label>
+                        <input type="text" id="phone-number" name="phone-number" required>
                     </div>
                     <button type="submit">Sign Up</button>
                 </form>
