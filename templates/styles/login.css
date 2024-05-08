@@ -1,0 +1,61 @@
+main {
+    width: 95%;
+    display: flex;
+    flex-direction: column; /* Stack sections vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center;
+}
+
+.login-banner {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    width: 60%;
+}
+
+
+h3 {
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+.form {
+    width: 20%;
+    height: 250px;
+    display: inline-block;
+    text-align: left;
+    border: solid black 4px;
+    padding: 50px 100px;
+}
+
+.form-group {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid black 3px;
+}
+
+button {
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: block;
+    margin: 10px auto;
+    border: solid black 2px;
+    box-shadow: 2.5px 5px;
+}
+
+button:hover {
+    cursor: pointer;
+}
