@@ -24,16 +24,11 @@ class UserRepository:
         user = User(row["id"], row["email"], row["password"], row["first_name"], row["last_name"], row["phone_number"])
         return user
     
-    def check_email_valid(self, user_email):
-        rows = self._connection.execute('SELECT * FROM users WHERE email=%s', [user_email])
-        if len(rows) == 0:
-            return False
-        else:
-            return True
         
     def find_user_from_email(self, user_email):
         rows = self._connection.execute('SELECT * FROM users WHERE email=%s', [user_email])
+        if len(rows) == 0:
+            return None
         row = rows[0]
         user = User(row["id"], row["email"], row["password"], row["first_name"], row["last_name"], row["phone_number"])
         return user
-
