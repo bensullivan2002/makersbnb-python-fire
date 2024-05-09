@@ -40,6 +40,9 @@ def signup_user():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     phone_number = request.form['phone_number']
+    if user_repository.find_user_from_email(email):
+        error_message = "Email is already in use."
+        return render_template('index.html', error_message=error_message)
     if password != confirm_password:
         error_message = "Passwords don't match!"
         return render_template('index.html', error_message=error_message)
@@ -50,7 +53,7 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect(url_for(f"/successful_signup"))
+            return redirect("/spaces")
 
     #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
 
