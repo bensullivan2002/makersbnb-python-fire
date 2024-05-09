@@ -7,6 +7,10 @@ from flask_session import Session
 from lib.database_connection import get_flask_database_connection
 from lib.user import *
 from lib.user_repository import *
+from lib.space import *
+from lib.space_repository import *
+from lib.availability import *
+from lib.availability_repository import *
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -18,6 +22,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 # GET /index
 # Returns the homepage
 # Try it: open http://localhost:5001/index
+
+#MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT 
 
 @app.route("/")
 def index():
@@ -46,9 +52,26 @@ def signup_user():
             return redirect(f"/index") # Should link to "successful sign up message with option to go to log in page but this needs to be worked on on HTML level"
 
     #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
-        
 
+@app.route('/list_space', methods=['GET'])
+def list_space_page():
+    return render_template('list_space.html')
 
+@app.route('/list_space', methods=['POST'])
+def actually_list_space():
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    availability_repository = AvailabilityRepository(connection)
+    name = request.form['name']
+    description = request.form['description']
+    price_per_night = request.form['price_per_night']
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
+    new_space = Space(None, name, description, price_per_night, current_user.id)
+    space = space_repository.create(new_space)
+    new_availability = Availability(start_date, end_date, space.id)
+    availability_repository.add_availability(new_availability)
+    return render_template('list_space.html')
 
 
 
@@ -57,28 +80,28 @@ def signup_user():
     
 
 
-@app.route("/login", methods=["POST", "GET"])
-def login():
-    return render_template("login.html")
+# @app.route("/login", methods=["POST", "GET"])
+# def login():
+#     return render_template("login.html")
 
-@app.route("/login", methods=["POST", "GET"])
-def login():
-# if form is submited
-	if request.method == "POST":
-		# record the user name
-		session["email"] = request.form.get("email")
-        #session["password"] = request.form.get("password")
-		# redirect to the main page
-		return redirect("/spaces")
-	return render_template("login.html")
+# @app.route("/login", methods=["POST", "GET"])
+# def login():
+# # if form is submited
+# 	if request.method == "POST":
+# 		# record the user name
+# 		session["email"] = request.form.get("email")
+#         #session["password"] = request.form.get("password")
+# 		# redirect to the main page
+# 		return redirect("/spaces")
+# 	return render_template("login.html")
 
-@app.route("/")
-def index():
-# check if the users exist or not
-	if not session.get("email"):
-		# if not there in the session then redirect to the login page
-		return redirect("/login")
-	return render_template('spaces.html')
+# @app.route("/")
+# def index():
+# # check if the users exist or not
+# 	if not session.get("email"):
+# 		# if not there in the session then redirect to the login page
+# 		return redirect("/login")
+# 	return render_template('spaces.html')
 
 @app.route("/logout")
 def logout():
