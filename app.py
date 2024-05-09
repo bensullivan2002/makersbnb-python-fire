@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request, render_template, redirect, session
 from flask_session import Session
+from flask import url_for
 
 
 from lib.database_connection import get_flask_database_connection
@@ -43,13 +44,8 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect(f"/index") # Should link to "successful sign up message with option to go to log in page but this needs to be worked on on HTML level"
-
-    #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
+            return redirect(url_for(f"/successful_signup"))
         
-
-
-
 
 
 

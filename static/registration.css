@@ -1,0 +1,19 @@
+h2 {
+    font-family: 'Corben', Georgia, Times, serif;
+    font-size: 30px;
+}
+p {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
+    font-size: 20px;
+}
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 15%;
+}
+a {
+    color:darkslategrey
+}
+strong {
+    font-size: 22px;
+}
