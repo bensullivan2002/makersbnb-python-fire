@@ -19,10 +19,12 @@ label {
     display: flex;
     justify-content: space-between;
     padding: 5px;
+    width: 100%;
 }
 
 .date-filter {
-    display: flex;
+    display: block;
+    width: 100%;
     justify-content: space-between;
     padding: 5px;
 }
@@ -64,4 +66,8 @@ label {
 .form-group-description label {
     display: block;
     margin-bottom: 5px;
+}
+
+.date-filter label, input {
+    display: block;
 }
