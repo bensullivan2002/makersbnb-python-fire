@@ -1,9 +1,13 @@
 main {
     width: 95%;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+label {
+    padding-right: 5px;
 }
 
 .spaces-banner {
@@ -23,8 +27,21 @@ main {
 .date-filter-panel {
     display: flex;
     justify-content: space-between;
+    padding: 5px;
 }
 
+.date-filter-panel input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid black 3px;
+}
+
+.date-filter {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
 
 .search-results {
     width: 70%;
@@ -38,6 +55,6 @@ main {
     width: 100%;
     background-color: white;
     padding: 20px;
-    border: 4px solid black; 
+    border: 4px solid black;
     border-radius: 5px;
 }

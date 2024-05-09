@@ -1,0 +1,73 @@
+label {
+    padding-right: 5px;
+}
+
+.spaces-banner {
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    flex-direction: column;
+    width: 60%;
+    margin-bottom: 50px;
+}
+
+.spaces-banner p {
+    width: 50%;
+}
+
+.date-filter-panel {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    width: 100%;
+}
+
+.date-filter {
+    display: block;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.search-results {
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+    border: 4px solid black;
+}
+
+.result {
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border: 4px solid black;
+    border-radius: 5px;
+}
+
+.list-property-form {
+    text-align: center
+}
+
+.list-property-form h3 {
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.form-group-description input {
+    width: 100%;
+    height: 250px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: solid black 3px;
+    margin-bottom: 15px;
+}
+
+.form-group-description label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.date-filter label, input {
+    display: block;
+}
