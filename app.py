@@ -50,7 +50,7 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect(f"/login") 
+            return redirect(url_for(f"/successful_signup"))
 
     #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
 
