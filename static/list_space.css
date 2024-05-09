@@ -5,7 +5,7 @@ label {
 .spaces-banner {
     display: flex;
     align-items: center;
-    text-align: center;
+    text-align: justify;
     flex-direction: column;
     width: 60%;
     margin-bottom: 50px;
