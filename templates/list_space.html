@@ -33,27 +33,27 @@
   </section>
   <section class="list-property-form">
     <h3>List a Property on MakersBnB</h3>
-    <form action="submit.py" method="post" class="form">
+    <form action="/list_space" method="post" class="form">
       <div class="form-group">
-        <label for="property-name">Name:</label>
-        <input type="text" id="property-name" name="property-name" required>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
       </div>
       <div class="form-group-description">
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" required>
       </div>
       <div class="form-group">
-        <label for="price-per-night">Price per night:</label>
-        <input type="text" id="price-per-night" name="price-per-night" required>
+        <label for="price_per_night">Price per night:</label>
+        <input type="text" id="price_per_night" name="price_per_night" required>
       </div>
       <section class="date-filter-panel">
         <div class="date-filter">
-          <label for="available-from">Available from</label>
-          <input type="date" id="available-from" name="available-from" required>
+          <label for="start_date">Available from</label>
+          <input type="date" id="start_date" name="start_date" required>
         </div>
         <div class="date-filter">
-          <label for="available-to">Available to</label>
-          <input type="date" id="available-to" name="available-to" required>
+          <label for="end_date">Available to</label>
+          <input type="date" id="end_date" name="end_date" required>
         </div>
       </section>
       <button type="submit">Submit</button>
