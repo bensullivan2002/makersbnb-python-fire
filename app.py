@@ -24,9 +24,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 # Try it: open http://localhost:5001/index
 
 
-#MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT 
+# MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT
 
 app.secret_key = b'secret_key_to_be_changed'
+
 
 def send_confirmation_email(user_email):
     smtp_server = 'localhost'
@@ -37,8 +38,9 @@ def send_confirmation_email(user_email):
     sender_email = 'no-reply@makersbnb.com'
     receiver_email = user_email
     subject = 'Confirmation E-mail'
-    confirmation_link = 'http://makersbnb.com/confirm?' + urlencode({'email': user_email})
-    body = f'Thank you for signing up with MakersBnB!\n\n Please click on the following link to complete your registration: {confirmation_link}'
+    confirmation_link = 'https://makersbnb.com/confirm?' + urlencode({'email': user_email})
+    body = (f'Thank you for signing up with MakersBnB!\n\n Please click on the following link to complete your '
+            f'registration: {confirmation_link}')
 
     message = MIMEMultipart()
     message['From'] = sender_email
@@ -56,9 +58,11 @@ def send_confirmation_email(user_email):
     except Exception as e:
         print("Error sending confirmation email:", e)
 
+
 @app.route("/")
 def index():
     return render_template('index.html')
+
 
 @app.route('/index', methods=['POST'])
 def signup_user():
@@ -70,12 +74,9 @@ def signup_user():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     phone_number = request.form['phone_number']
-    existing_user = user_repository.find_user_from_email(email)
-    if existing_user:
-        if not existing_user.is_confirmed:
-            return render_template('index.html', resend_confirmation=True)  #I think lines 74 to 77 can be deleted. We already have an error for duplicate accounts. And if it's not a duplicate why have it to begin with.
-        else:
-            return render_template('index.html', error_message="User already exists. Please log in.")
+    if user_repository.find_user_from_email(email):
+        error_message = "Email is already in use."
+        return render_template('index.html', error_message=error_message)
     if password != confirm_password:
         error_message = "Passwords don't match!"
         return render_template('index.html', error_message=error_message)
@@ -86,6 +87,17 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
+            return redirect(f"/successful_signup")
+        # corrected this for functionality don't need url for
+
+
+@app.route('/successful_signup')
+def successful_signup():
+    return render_template('successful_signup.html')
+
+
+# added successful sign up
+
             send_confirmation_email(email)
             return redirect(f"/confirmation")
 
@@ -97,9 +109,11 @@ def confirm_email():
         flash('Confirmation email has been resent! Please check your inbox.', 'success')
     return render_template('confirmation.html', email=user_email)
 
+
 @app.route('/list_space', methods=['GET'])
 def list_space_page():
     return render_template('list_space.html')
+
 
 @app.route('/list_space', methods=['POST'])
 def actually_list_space():
@@ -111,18 +125,23 @@ def actually_list_space():
     price_per_night = request.form['price_per_night']
     start_date = request.form['start_date']
     end_date = request.form['end_date']
-    new_space = Space(None, name, description, price_per_night, current_user.id)
+    new_space = Space(None, name, description, price_per_night, session['user_id'])
     space = space_repository.create(new_space)
     new_availability = Availability(start_date, end_date, space.id)
     availability_repository.add_availability(new_availability)
-    return render_template('list_space.html')
+    spaces = space_repository.all()
+    for space in spaces:
+        space.availability = availability_repository.find_by_space_id(space.id)
+    fullname = session['user_fullname']
+    return redirect(f"/spaces/{space.id}")
+
 
 @app.route("/logout")
 def logout():
-	session["email"] = None
-	return redirect("/")
+    session["email"] = None
+    return redirect("/")
 
-        
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -134,25 +153,53 @@ def login():
     if request.method == 'POST':
         connection = get_flask_database_connection(app)
         user_repository = UserRepository(connection)
-        email = request.form['email'] 
+        email = request.form['email']
         password = request.form['password']
         user = user_repository.find_user_from_email(email)
         if user and password == user.password:
             session['logged_in'] = True
             session['user_fullname'] = f'{user.first_name} {user.last_name}'
-            session['user_id'] = user.id # Angelicas request
-            return redirect('/spaces') 
+            session['user_id'] = user.id  # Angelica's request
+            return redirect('/spaces')
         return 'Invalid username or password'
+
+
+@app.route('/spaces/<int:id>', methods=['GET'])
+def get_space(id):
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    space = space_repository.find(id)
+    return render_template('/show.html', space=space)
+
+
+# @app.route('/spaces', methods=['GET'])
+# def view_spaces():
+#     if not session:
+#         return render_template('login.html')
+#     if session.get('logged_in'):
+#         connection = get_flask_database_connection(app)
+#         space_repository = SpaceRepository(connection)
+#         spaces = space_repository.all()
+#         fullname = session['user_fullname']
+#         return render_template('spaces.html', fullname=fullname, spaces=spaces)
+#     return render_template('login.html')
+
 
 @app.route('/spaces', methods=['GET'])
 def view_spaces():
     if not session:
         return render_template('login.html')
-    if session['logged_in']:
+    if session.get('logged_in'):
+        connection = get_flask_database_connection(app)
+        space_repository = SpaceRepository(connection)
+        availability_repository = AvailabilityRepository(connection)
+        spaces = space_repository.all()
+        for space in spaces:
+            space.availability = availability_repository.find_by_space_id(space.id)
         fullname = session['user_fullname']
-        return render_template('spaces.html', fullname=fullname)
-    return render_template('login.html') 
+        return render_template('spaces.html', fullname=fullname, spaces=spaces)
+    return render_template('login.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
-
