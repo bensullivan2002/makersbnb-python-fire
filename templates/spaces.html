@@ -103,17 +103,6 @@
                 <a href="/list_space" class="listings-button">List a Space</a>
             </section>
     
-            <section class="date-filter-panel">
-                <div class="date-filter">
-                    <label for="available-from">Available from</label>
-                    <input type="date" id="available-from" name="available-from" required>
-                </div>
-                <div class="date-filter">
-                    <label for="available-to">Available to</label>
-                    <input type="date" id="available-to" name="available-to" required>
-                </div>
-            </section>
-    
             {% for space in spaces %}
             <div class="result">
                 <a href="/spaces/{{ space.id }}">
@@ -130,7 +119,37 @@
                 </ul>
             </div>
             {% endfor %}
-        </main>
+        </section>
+        {% for space in spaces %}
+        <div class="result">
+            <a href="/spaces/{{ space.id }}">
+                <h2>{{ space.name }}</h2>
+            </a>
+            <p>{{ space.description }}</p>
+            <p>Price: £{{ space.price_per_night }} per night</p>
+            <p>Availability:</p>
+            <ul>
+                {% for availability in space.availability %}
+                <li>{{ availability.start_date }} to {{ availability.end_date }}</li>
+                {% endfor %}
+            </ul>
+            <form action="/spaces/{{ space.id }}" method="post" class="form">
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                </div>
+                <button type="submit">Book</button>
+            </form>
+        </div>
+        {% endfor %}
+        </section>
+                </div>
+            </section>
+    </main>
+
     </body>
-    </html>
-    
+</html>
