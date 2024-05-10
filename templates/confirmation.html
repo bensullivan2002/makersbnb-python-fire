@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-GB">
     <head>
-        <meta http-equiv="Refresh" content="4"; url="http://MakersBnB.com/Spaces">
+        <!-- <meta http-equiv="Refresh" content="4"; url="http://MakersBnB.com/Spaces"> -->
+        <!-- This is the automatic redirect function. It seemed unnecessary after the confirm
+        -email link process was setup. But it could be useful elsewhere!-->
         <title>MakersBnB - Spaces</title>
         <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
@@ -19,10 +21,14 @@
         <main>
             <section>
                 <h2>
-                    Registration Successful!
+                    Thank you for signing up with MakersBnB!<br>
                 </h2>
                 <p>
-                    Please wait to be redirected. If you are not redirected automatically, please click: <strong><a href="/templates/login.html">here</a></strong>
+                    We have sent you a confirmation email at: {{ email }}<br>
+                    If you can't find it in your inbox please check your junk/spam folder.<br>
+                    Otherwise, <a href="/confirmation?resend=true">click here</a> to re-send the link!
+                    <!-- Otherwise, use this <strong><a href="/templates/index.html">link</a></strong> to re-register. -->
+                    <!-- If you're still having issues signing in, please use this <strong><a href="/templates/contact_form.html">link</a></strong> to fill in a contact form and we will get back to you within one working day! -->
                 </p>
             </section>
         </main>

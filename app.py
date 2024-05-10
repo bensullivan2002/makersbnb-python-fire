@@ -1,6 +1,6 @@
 import os
-
-from flask import Flask, request, render_template, redirect, session
+import smtplib
+from flask import Flask, request, render_template, redirect, session, flash
 from lib.database_connection import get_flask_database_connection
 from lib.user import *
 from lib.user_repository import *
@@ -8,6 +8,9 @@ from lib.space import *
 from lib.space_repository import *
 from lib.availability import *
 from lib.availability_repository import *
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from urllib.parse import urlencode
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -25,6 +28,33 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 app.secret_key = b'secret_key_to_be_changed'
 
+def send_confirmation_email(user_email):
+    smtp_server = 'localhost'
+    smtp_port = 1025
+    smtp_username = 'Ben@gmail.com'
+    smtp_password = 'Password123!'
+
+    sender_email = 'no-reply@makersbnb.com'
+    receiver_email = user_email
+    subject = 'Confirmation E-mail'
+    confirmation_link = 'http://makersbnb.com/confirm?' + urlencode({'email': user_email})
+    body = f'Thank you for signing up with MakersBnB!\n\n Please click on the following link to complete your registration: {confirmation_link}'
+
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message['Subject'] = subject
+    message.attach(MIMEText(body, 'plain'))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+        server.quit()
+        print("Confirmation Email has been sent. Please check your inbox.")
+    except Exception as e:
+        print("Error sending confirmation email:", e)
 
 @app.route("/")
 def index():
@@ -40,6 +70,12 @@ def signup_user():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     phone_number = request.form['phone_number']
+    existing_user = user_repository.find_user_from_email(email)
+    if existing_user:
+        if not existing_user.is_confirmed:
+            return render_template('index.html', resend_confirmation=True)  #I think lines 74 to 77 can be deleted. We already have an error for duplicate accounts. And if it's not a duplicate why have it to begin with.
+        else:
+            return render_template('index.html', error_message="User already exists. Please log in.")
     if password != confirm_password:
         error_message = "Passwords don't match!"
         return render_template('index.html', error_message=error_message)
@@ -50,9 +86,16 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect(url_for(f"/successful_signup"))
+            send_confirmation_email(email)
+            return redirect(f"/confirmation")
 
-    #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
+@app.route('/confirmation', methods=['GET'])
+def confirm_email():
+    user_email = request.args.get('email')
+    if 'resend' in request.args:
+        send_confirmation_email(user_email)
+        flash('Confirmation email has been resent! Please check your inbox.', 'success')
+    return render_template('confirmation.html', email=user_email)
 
 @app.route('/list_space', methods=['GET'])
 def list_space_page():

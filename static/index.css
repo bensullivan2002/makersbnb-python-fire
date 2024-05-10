@@ -15,12 +15,16 @@ main {
 }
 
 .welcome-banner h1 {
-    font-size: 70px;
-    margin-bottom: 50px;
+    font-family: 'Corben', Georgia, Times, serif;
+    font-size: 40px;
+    margin-top: 80px;
+    margin-left: 120px;
 }
 
 .welcome-banner p {
+    font-family: 'Nobile', Helvetica, Arial, sans-serif;
     margin-top: 10px;
+    margin-left: 120px;
     line-height: 22px;
 }
 
