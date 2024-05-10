@@ -121,7 +121,7 @@
                 </a>
                 <p>{{ space.description }}</p>
                 <p>Price: £{{ space.price_per_night }} per night</p>
-                <p>Host Name: {{ fullname }}</p>
+                <p>Host Name: {{ space.host_name }}</p>
                 <p>Availability:</p>
                 <ul>
                     {% for availability in space.availability %}

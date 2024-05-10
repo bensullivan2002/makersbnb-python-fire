@@ -54,40 +54,16 @@ def signup_user():
         else:
             user_repository.create(user)
             return redirect((f"/successful_signup"))
-        #corrected this for functionality don't need url for
+
 @app.route('/successful_signup')
 def successful_signup():
     return render_template('successful_signup.html')
-   #added successful sign up
-
-
-    #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
 
 @app.route('/list_space', methods=['GET'])
 def list_space_page():
     return render_template('list_space.html')
 
-# @app.route('/list_space', methods=['POST'])
-# def actually_list_space():
-#     connection = get_flask_database_connection(app)
-#     space_repository = SpaceRepository(connection)
-#     availability_repository = AvailabilityRepository(connection)
-#     name = request.form['name']
-#     description = request.form['description']
-#     price_per_night = request.form['price_per_night']
-#     start_date = request.form['start_date']
-#     end_date = request.form['end_date']
-#     new_space = Space(None, name, description, price_per_night, session['user_id'])
-#     space = space_repository.create(new_space)
-#     new_availability = Availability(start_date, end_date, space.id)
-#     availability_repository.add_availability(new_availability)
-#     spaces = space_repository.all()
-#     for space in spaces:
-#         space.availability = availability_repository.find_by_space_id(space.id)
-#     fullname = session['user_fullname']
-#     return redirect(f"/spaces/{space.id}")
-
-
+    
 @app.route('/list_space', methods=['POST'])
 def actually_list_space():
     connection = get_flask_database_connection(app)
@@ -102,13 +78,11 @@ def actually_list_space():
     space = space_repository.create(new_space)
     new_availability = Availability(start_date, end_date, space.id)
     availability_repository.add_availability(new_availability)
-    spaces = space_repository.all()
-    for space in spaces:
-        space.availability = availability_repository.find_by_space_id(space.id)
-    user = UserRepository(connection).find(session['user_id'])
-    fullname = f"{user.first_name} {user.last_name}"
-    return redirect(f"/spaces/{space.id}?fullname={fullname}")
-    
+    user_repository = UserRepository(connection)
+    user = user_repository.find(session['user_id'])
+    fullname = f"{user.first_name} {user.last_name}" 
+    return redirect(f"/spaces/{space.id}?fullname={fullname}")  
+
 
 @app.route("/logout")
 def logout():
@@ -142,9 +116,11 @@ def get_space(id):
     connection = get_flask_database_connection(app)
     space_repository = SpaceRepository(connection)
     space = space_repository.find(id)
-    user = UserRepository(connection).find(session['user_id'])
-    fullname = f"{user.first_name} {user.last_name}"
+    user_repository = UserRepository(connection)
+    user = user_repository.find(space.user_id)  
+    fullname = f"{user.first_name} {user.last_name}" 
     return render_template('/show.html', space=space, fullname=fullname)
+
 
 @app.route('/spaces', methods=['GET'])
 def view_spaces():
@@ -157,9 +133,12 @@ def view_spaces():
         spaces = space_repository.all()
         for space in spaces:
             space.availability = availability_repository.find_by_space_id(space.id)
-        fullname = session['user_fullname']
-        return render_template('spaces.html', fullname=fullname, spaces=spaces)
-    return render_template('login.html') 
+            user_repository = UserRepository(connection)
+            user = user_repository.find(space.user_id)
+            space.host_name = f"{user.first_name} {user.last_name}"
+            fullname = session['user_fullname']
+        return render_template('spaces.html', fullname = fullname, spaces=spaces)
+    return render_template('login.html')
 
 
 

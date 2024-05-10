@@ -1,67 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en-GB">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<head>
-  <title>List a Space</title>
-  <link rel="stylesheet" href="../static/style.css">
-  <link rel="stylesheet" href="../static/base_styling.css">
-  <link rel="stylesheet" href="../static/index.css">
-  <link rel="stylesheet" href="../static/spaces.css">
-  <link rel="stylesheet" href="../static/list_space.css">
-</head>
-<body>
-<nav class="navbar">
-  <img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo"
-       class="logo">
-  <div class="nav-links">
-    <a href="https://MakersBnB.com/About" class="nav-link">About</a>
-    <a href="https://MakersBnB.com/Login" class="nav-link">Login</a>
-  </div>
-</nav>
-<main>
-  <section class="spaces-banner">
-    <h1>List a Space</h1>
-    <p>
-      So you have a beautiful property and you want to share the love?
-      Well, you've come to the right place!
-      Here at Makers BnB our mission is to match relaxing retreats with grateful guests.
-      All you need to do is fill out the details of your property below, click Submit, and hey presto!
-      We do all the hard work you,
-      so you can focus on doing what you do best - making stunning spaces for others to enjoy!
-    </p>
-  </section>
-  <section class="list-property-form">
-    <h3>List a Property on MakersBnB</h3>
-    <form action="/list_space" method="post" class="form">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="form-group-description">
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
-      </div>
-      <div class="form-group">
-        <label for="price_per_night">Price per night:</label>
-        <input type="text" id="price_per_night" name="price_per_night" required>
-      </div>
-      <section class="date-filter-panel">
-        <div class="date-filter">
-          <label for="start_date">Available from</label>
-          <input type="date" id="start_date" name="start_date" required>
-        </div>
-        <div class="date-filter">
-          <label for="end_date">Available to</label>
-          <input type="date" id="end_date" name="end_date" required>
-        </div>
-      </section>
-      <button type="submit">Submit</button>
-    </form>
-  </section>
-</main>
-</body>
-</html> -->
 
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -205,8 +141,9 @@
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group-description">
-                <label for="description">Description:</label>
-                <input type="text" id="description" name="description" required>
+              <label for="description">Description:</label>
+              <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+          </div>          
             </div>
             <div class="form-group">
                 <label for="price_per_night">Price per night:</label>
