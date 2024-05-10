@@ -25,7 +25,7 @@
                 <p>Discover your ideal retreat with ease. 
                     Book unique spaces for unforgettable stays or alternatively, 
                     list a space by clicking the button below.</p>
-                <button class="listings-button">List a Space</button>
+                    <a href="/list_space" class="listings-button">List a Space</a>
             </section>
             <section class="date-filter-panel">
                 <div class="date-filter">
@@ -36,25 +36,24 @@
                     <label for="available-to">Available to</label>
                     <input type="date" id="available-to" name="available-to" required>
                 </div>
-                <div class="date-filter">
-                    <button type="submit">List Spaces</button>
-                </div>
             </section>
-            <section class="search-results">
-                <div class="result">
-                    <h2>Property Name</h2>
-                    <p>Description</p>
-                    <p>Price: £120 per night</p>
-                </div>
-                <div class="result">
-                    <h2>Property Name</h2>
-                    <p>Description</p>
-                    <p>Price: £120 per night</p>
-                </div>
-                <div class="result">
-                    <h2>Property Name</h2>
-                    <p>Description</p>
-                    <p>Price: £120 per night</p>
+        </section>
+        {% for space in spaces %}
+        <div class="result">
+            <a href="/spaces/{{ space.id }}">
+                <h2>{{ space.name }}</h2>
+            </a>
+            <p>{{ space.description }}</p>
+            <p>Price: £{{ space.price_per_night }} per night</p>
+            <p>Availability:</p>
+            <ul>
+                {% for availability in space.availability %}
+                <li>{{ availability.start_date }} to {{ availability.end_date }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        </section>
                 </div>
             </section>
     </main>

@@ -50,7 +50,13 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect(url_for(f"/successful_signup"))
+            return redirect((f"/successful_signup"))
+        #corrected this for functionality don't need url for
+@app.route('/successful_signup')
+def successful_signup():
+    return render_template('successful_signup.html')
+   #added successful sign up
+
 
     #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
 
@@ -68,11 +74,16 @@ def actually_list_space():
     price_per_night = request.form['price_per_night']
     start_date = request.form['start_date']
     end_date = request.form['end_date']
-    new_space = Space(None, name, description, price_per_night, current_user.id)
+    new_space = Space(None, name, description, price_per_night, session['user_id'])
     space = space_repository.create(new_space)
     new_availability = Availability(start_date, end_date, space.id)
     availability_repository.add_availability(new_availability)
-    return render_template('list_space.html')
+    spaces = space_repository.all()
+    for space in spaces:
+        space.availability = availability_repository.find_by_space_id(space.id)
+    fullname = session['user_fullname']
+    return redirect(f"/spaces/{space.id}")
+    
 
 @app.route("/logout")
 def logout():
@@ -98,17 +109,45 @@ def login():
             session['logged_in'] = True
             session['user_fullname'] = f'{user.first_name} {user.last_name}'
             session['user_id'] = user.id # Angelicas request
-            return redirect('/spaces') 
+            return redirect('/spaces')
         return 'Invalid username or password'
+    
+@app.route('/spaces/<int:id>', methods=['GET'])
+def get_space(id):
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    space = space_repository.find(id)
+    return render_template('/show.html', space=space)
+
+
+# @app.route('/spaces', methods=['GET'])
+# def view_spaces():
+#     if not session:
+#         return render_template('login.html')
+#     if session.get('logged_in'):
+#         connection = get_flask_database_connection(app)
+#         space_repository = SpaceRepository(connection)
+#         spaces = space_repository.all()
+#         fullname = session['user_fullname']
+#         return render_template('spaces.html', fullname=fullname, spaces=spaces)
+#     return render_template('login.html') 
 
 @app.route('/spaces', methods=['GET'])
 def view_spaces():
     if not session:
         return render_template('login.html')
-    if session['logged_in']:
+    if session.get('logged_in'):
+        connection = get_flask_database_connection(app)
+        space_repository = SpaceRepository(connection)
+        availability_repository = AvailabilityRepository(connection)
+        spaces = space_repository.all()
+        for space in spaces:
+            space.availability = availability_repository.find_by_space_id(space.id)
         fullname = session['user_fullname']
-        return render_template('spaces.html', fullname=fullname)
+        return render_template('spaces.html', fullname=fullname, spaces=spaces)
     return render_template('login.html') 
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
