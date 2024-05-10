@@ -1,32 +1,108 @@
-<!DOCTYPE html>
-<html lang="en-GB">
+    <!DOCTYPE html>
+    <html lang="en-GB">
     <head>
         <title>MakersBnB - Spaces</title>
         <link rel="stylesheet" href="../static/base_styling.css">
         <link rel="stylesheet" href="../static/spaces.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #fff;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+            nav.navbar {
+                background-color: #ff8c00;
+                color: #fff;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav-links a {
+                color: #fff;
+                margin-left: 20px;
+                text-decoration: none;
+            }
+            main {
+                padding: 20px;
+            }
+            .welcome-logged-in-user {
+                background-color: #ffc107;
+                color: #333;
+                padding: 10px;
+                margin-bottom: 20px;
+                text-align: center;
+                border-radius: 5px;
+            }
+            .spaces-banner {
+                background-color: #ffa500;
+                color: #fff;
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 20px;
+                border-radius: 5px;
+            }
+            .listings-button {
+                background-color: #ff4500;
+                color: #fff;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+            .listings-button:hover {
+                background-color: #ff6347;
+            }
+            .result {
+                background-color: #fff;
+                padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .result h2 {
+                color: #ff8c00;
+                margin-top: 0;
+            }
+            .result p {
+                color: #333;
+                margin-bottom: 10px;
+            }
+            .result ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            .result ul li {
+                margin-bottom: 5px;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar">
-            <a href="https://MakersBnB.com/Index"><img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo" class="logo"></a>
+            <a href="https://MakersBnB.com/Index">
+                <img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo" class="logo">
+            </a>
             <div class="nav-links">
                 <a href="https://MakersBnB.com/About" class="nav-link">About</a>
                 <a href="/login" class="nav-link">Sign Out</a>
             </div>
-
         </nav>
+    
         <main>
             <section>
-                <div class = "welcome-logged-in-user">
-                    <p> Welcome {{fullname}}!</p>
+                <div class="welcome-logged-in-user">
+                    <p>Welcome {{fullname}}!</p>
                 </div>
             </section>
+    
             <section class="spaces-banner">
                 <h1>Book a Space</h1>
-                <p>Discover your ideal retreat with ease. 
-                    Book unique spaces for unforgettable stays or alternatively, 
-                    list a space by clicking the button below.</p>
-                    <a href="/list_space" class="listings-button">List a Space</a>
+                <p>Discover your ideal retreat with ease. Book unique spaces for unforgettable stays or alternatively, list a space by clicking the button below.</p>
+                <a href="/list_space" class="listings-button">List a Space</a>
             </section>
+    
             <section class="date-filter-panel">
                 <div class="date-filter">
                     <label for="available-from">Available from</label>
@@ -37,25 +113,24 @@
                     <input type="date" id="available-to" name="available-to" required>
                 </div>
             </section>
-        </section>
-        {% for space in spaces %}
-        <div class="result">
-            <a href="/spaces/{{ space.id }}">
-                <h2>{{ space.name }}</h2>
-            </a>
-            <p>{{ space.description }}</p>
-            <p>Price: £{{ space.price_per_night }} per night</p>
-            <p>Availability:</p>
-            <ul>
-                {% for availability in space.availability %}
-                <li>{{ availability.start_date }} to {{ availability.end_date }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endfor %}
-        </section>
-                </div>
-            </section>
-    </main>
-
+    
+            {% for space in spaces %}
+            <div class="result">
+                <a href="/spaces/{{ space.id }}">
+                    <h2>{{ space.name }}</h2>
+                </a>
+                <p>{{ space.description }}</p>
+                <p>Price: £{{ space.price_per_night }} per night</p>
+                <p>Host Name: {{ fullname }}</p>
+                <p>Availability:</p>
+                <ul>
+                    {% for availability in space.availability %}
+                    <li>{{ availability.start_date }} to {{ availability.end_date }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </main>
     </body>
+    </html>
+    

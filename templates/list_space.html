@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en-GB">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,4 +61,171 @@
   </section>
 </main>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List a Space</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/base_styling.css">
+    <link rel="stylesheet" href="../static/index.css">
+    <link rel="stylesheet" href="../static/spaces.css">
+    <link rel="stylesheet" href="../static/list_space.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        nav.navbar {
+            background-color: #ff8c00;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        .spaces-banner {
+            background-color: #ffa500;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .spaces-banner h1 {
+            font-size: 28px;
+            margin-top: 0;
+        }
+        .spaces-banner p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .list-property-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .list-property-form h3 {
+            font-size: 24px;
+            color: #ff8c00;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .date-filter-panel {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .date-filter-panel .date-filter {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .date-filter-panel .date-filter label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .date-filter-panel .date-filter input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #ff4500;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <img src="https://www.manchesterdigital.com/storage/19222/Makers-Logo_LockupV-Black-White-Background.png" alt="Logo" class="logo">
+    <div class="nav-links">
+        <a href="https://MakersBnB.com/About" class="nav-link">About</a>
+        <a href="/login" class="nav-link">Login</a>
+    </div>
+</nav>
+
+<main>
+    <section class="spaces-banner">
+        <h1>List a Space</h1>
+        <p>
+            So you have a beautiful property and you want to share the love?
+            Well, you've come to the right place!
+            Here at Makers BnB our mission is to match relaxing retreats with grateful guests.
+            All you need to do is fill out the details of your property below, click Submit, and hey presto!
+            We do all the hard work you,
+            so you can focus on doing what you do best - making stunning spaces for others to enjoy!
+        </p>
+    </section>
+    <section class="list-property-form">
+        <h3>List a Property on MakersBnB</h3>
+        <form action="/list_space" method="post" class="form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group-description">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+            <div class="form-group">
+                <label for="price_per_night">Price per night:</label>
+                <input type="text" id="price_per_night" name="price_per_night" required>
+            </div>
+            <section class="date-filter-panel">
+                <div class="date-filter">
+                    <label for="start_date">Available from</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                </div>
+                <div class="date-filter">
+                    <label for="end_date">Available to</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                </div>
+            </section>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+</main>
+</body>
 </html>
+```
