@@ -8,7 +8,9 @@ from lib.space import *
 from lib.space_repository import *
 from lib.availability import *
 from lib.availability_repository import *
-from utils.email_verification import send_confirmation_email
+from lib.booking import *
+from lib.booking_repository import *
+
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -161,8 +163,26 @@ def view_spaces():
             space.availability = availability_repository.find_by_space_id(space.id)
         fullname = session['user_fullname']
         return render_template('spaces.html', fullname=fullname, spaces=spaces)
-    return render_template('login.html')
 
+    return render_template('login.html') 
+
+@app.route('/spaces/<id>', methods=['POST'])
+def make_booking(id):
+    if not session:
+        return render_template('login.html')
+    if session.get('logged_in'):
+        connection = get_flask_database_connection(app)
+        space_repository = SpaceRepository(connection)
+        space = space_repository.find(id)
+        booking_repository = BookingRepository(connection)
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        booking_repository.create(Booking(None, start_date, end_date, session['user_id'], space.id))
+        return redirect('/my_bookings')
+
+@app.route('/my_bookings', methods=['GET'])
+def view_bookings():
+    return render_template('my_bookings.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
