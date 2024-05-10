@@ -1,5 +1,5 @@
 import os
-import smtplib
+
 from flask import Flask, request, render_template, redirect, session, flash
 from lib.database_connection import get_flask_database_connection
 from lib.user import *
@@ -10,6 +10,7 @@ from lib.availability import *
 from lib.availability_repository import *
 from lib.booking import *
 from lib.booking_repository import *
+
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -26,36 +27,6 @@ app.config["SESSION_TYPE"] = "filesystem"
 # MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT
 
 app.secret_key = b'secret_key_to_be_changed'
-
-
-def send_confirmation_email(user_email):
-    smtp_server = 'localhost'
-    smtp_port = 1025
-    smtp_username = 'Ben@gmail.com'
-    smtp_password = 'Password123!'
-
-    sender_email = 'no-reply@makersbnb.com'
-    receiver_email = user_email
-    subject = 'Confirmation E-mail'
-    confirmation_link = 'https://makersbnb.com/confirm?' + urlencode({'email': user_email})
-    body = (f'Thank you for signing up with MakersBnB!\n\n Please click on the following link to complete your '
-            f'registration: {confirmation_link}')
-
-    message = MIMEMultipart()
-    message['From'] = sender_email
-    message['To'] = receiver_email
-    message['Subject'] = subject
-    message.attach(MIMEText(body, 'plain'))
-
-    try:
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(smtp_username, smtp_password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
-        server.quit()
-        print("Confirmation Email has been sent. Please check your inbox.")
-    except Exception as e:
-        print("Error sending confirmation email:", e)
 
 
 @app.route("/")
@@ -86,19 +57,14 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
+            send_confirmation_email(email)
             return redirect(f"/successful_signup")
-        # corrected this for functionality don't need url for
 
 
 @app.route('/successful_signup')
 def successful_signup():
-    return render_template('successful_signup.html')
+    return render_template('confirmation.html')
 
-
-# added successful sign up
-
-            send_confirmation_email(email)
-            return redirect(f"/confirmation")
 
 @app.route('/confirmation', methods=['GET'])
 def confirm_email():
