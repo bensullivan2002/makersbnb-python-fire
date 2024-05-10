@@ -1,14 +1,17 @@
 h2 {
     font-family: 'Corben', Georgia, Times, serif;
     font-size: 30px;
+    text-align:center;
+    margin-left:330px;
 }
 p {
     font-family: 'Nobile', Helvetica, Arial, sans-serif;
     font-size: 20px;
+    margin-left:320px;
+    text-align:center;
 }
 main {
     display: flex;
-    justify-content: center;
     margin-top: 15%;
 }
 a {
