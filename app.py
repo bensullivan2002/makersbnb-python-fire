@@ -1,6 +1,6 @@
 import os
-
-from flask import Flask, request, render_template, redirect, session
+import smtplib
+from flask import Flask, request, render_template, redirect, session, flash
 from lib.database_connection import get_flask_database_connection
 from lib.user import *
 from lib.user_repository import *
@@ -23,14 +23,45 @@ app.config["SESSION_TYPE"] = "filesystem"
 # Try it: open http://localhost:5001/index
 
 
-#MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT 
+# MANY ROUTES NOT ALLOWING SERVER TO RUN AS IN CONFLICT
 
 app.secret_key = b'secret_key_to_be_changed'
+
+
+def send_confirmation_email(user_email):
+    smtp_server = 'localhost'
+    smtp_port = 1025
+    smtp_username = 'Ben@gmail.com'
+    smtp_password = 'Password123!'
+
+    sender_email = 'no-reply@makersbnb.com'
+    receiver_email = user_email
+    subject = 'Confirmation E-mail'
+    confirmation_link = 'https://makersbnb.com/confirm?' + urlencode({'email': user_email})
+    body = (f'Thank you for signing up with MakersBnB!\n\n Please click on the following link to complete your '
+            f'registration: {confirmation_link}')
+
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = receiver_email
+    message['Subject'] = subject
+    message.attach(MIMEText(body, 'plain'))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+        server.quit()
+        print("Confirmation Email has been sent. Please check your inbox.")
+    except Exception as e:
+        print("Error sending confirmation email:", e)
 
 
 @app.route("/")
 def index():
     return render_template('index.html')
+
 
 @app.route('/index', methods=['POST'])
 def signup_user():
@@ -55,19 +86,33 @@ def signup_user():
             return render_template('index.html', errors=errors)
         else:
             user_repository.create(user)
-            return redirect((f"/successful_signup"))
-        #corrected this for functionality don't need url for
+            return redirect(f"/successful_signup")
+        # corrected this for functionality don't need url for
+
+
 @app.route('/successful_signup')
 def successful_signup():
     return render_template('successful_signup.html')
-   #added successful sign up
 
 
-    #NEED TO ADD FUNCTIONALITY TO CHECK IF EMAIL ALREADY IN DATABASE  
+# added successful sign up
+
+            send_confirmation_email(email)
+            return redirect(f"/confirmation")
+
+@app.route('/confirmation', methods=['GET'])
+def confirm_email():
+    user_email = request.args.get('email')
+    if 'resend' in request.args:
+        send_confirmation_email(user_email)
+        flash('Confirmation email has been resent! Please check your inbox.', 'success')
+    return render_template('confirmation.html', email=user_email)
+
 
 @app.route('/list_space', methods=['GET'])
 def list_space_page():
     return render_template('list_space.html')
+
 
 @app.route('/list_space', methods=['POST'])
 def actually_list_space():
@@ -88,14 +133,14 @@ def actually_list_space():
         space.availability = availability_repository.find_by_space_id(space.id)
     fullname = session['user_fullname']
     return redirect(f"/spaces/{space.id}")
-    
+
 
 @app.route("/logout")
 def logout():
-	session["email"] = None
-	return redirect("/")
+    session["email"] = None
+    return redirect("/")
 
-        
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -107,16 +152,17 @@ def login():
     if request.method == 'POST':
         connection = get_flask_database_connection(app)
         user_repository = UserRepository(connection)
-        email = request.form['email'] 
+        email = request.form['email']
         password = request.form['password']
         user = user_repository.find_user_from_email(email)
         if user and password == user.password:
             session['logged_in'] = True
             session['user_fullname'] = f'{user.first_name} {user.last_name}'
-            session['user_id'] = user.id # Angelicas request
+            session['user_id'] = user.id  # Angelica's request
             return redirect('/spaces')
         return 'Invalid username or password'
-    
+
+
 @app.route('/spaces/<int:id>', methods=['GET'])
 def get_space(id):
     connection = get_flask_database_connection(app)
@@ -135,7 +181,8 @@ def get_space(id):
 #         spaces = space_repository.all()
 #         fullname = session['user_fullname']
 #         return render_template('spaces.html', fullname=fullname, spaces=spaces)
-#     return render_template('login.html') 
+#     return render_template('login.html')
+
 
 @app.route('/spaces', methods=['GET'])
 def view_spaces():
@@ -150,6 +197,7 @@ def view_spaces():
             space.availability = availability_repository.find_by_space_id(space.id)
         fullname = session['user_fullname']
         return render_template('spaces.html', fullname=fullname, spaces=spaces)
+
     return render_template('login.html') 
 
 @app.route('/spaces/<id>', methods=['POST'])
@@ -165,9 +213,6 @@ def make_booking(id):
         end_date = request.form.get('end_date')
         booking_repository.create(Booking(None, start_date, end_date, session['user_id'], space.id))
         return redirect('/my_bookings')
-        
-    
-
 
 @app.route('/my_bookings', methods=['GET'])
 def view_bookings():
@@ -175,4 +220,3 @@ def view_bookings():
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
-
