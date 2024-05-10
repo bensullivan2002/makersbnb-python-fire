@@ -1,12 +1,72 @@
+
+
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
-        <h1>{{ space.name }}</h1>
-        <p>
-            Description: {{ space.description }}
-            Price Per Night: {{ space.price_per_night }}
-        </p>
-        <a href="/spaces">View all available spaces</a>
-    </body>
+<head>
+    <title>Space Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #f6f6f6;
+            margin-top: 0;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #daef14;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #d31b61;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-bottom: 40px;
+        }
+        .header {
+            background-color: #3419d0;
+            color: #3606c4;
+            padding: 20px 0;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ space.name }}</h1>
+        </div>
+        <div class="content">
+            <p>Description: {{ space.description }}</p>
+            <p>Price Per Night: £{{ space.price_per_night }}</p>
+            <p>Host: {{ fullname }}</p>
+        </div>
+        <div class="footer">
+            <a href="/spaces">View all available spaces</a>
+        </div>
+    </div>
+</body>
 </html>
