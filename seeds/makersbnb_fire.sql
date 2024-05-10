@@ -63,6 +63,7 @@ INSERT INTO spaces (name, description, price_per_night, user_id) VALUES ('Ocean 
 
 INSERT INTO bookings (start_date, end_date, user_id, space_id) VALUES ('2024-05-12', '2024-05-19', 1, 2);
 INSERT INTO bookings (start_date, end_date, user_id, space_id) VALUES ('2024-07-13', '2024-07-28', 2, 1);
+INSERT INTO bookings (start_date, end_date, user_id, space_id) VALUES ('2024-06-15', '2024-06-30', 2, 1);
 
 INSERT INTO dates_available (start_date, end_date, space_id) VALUES ('2024-01-01', '2025-01-01', 1);
 INSERT INTO dates_available (start_date, end_date, space_id) VALUES ('2024-01-01', '2025-01-01', 2);

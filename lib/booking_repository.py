@@ -20,7 +20,13 @@ class BookingRepository:
     def find(self, booking_id):
         rows = self._connection.execute('SELECT * FROM bookings WHERE id=%s', [booking_id])
         row = rows[0]
-        print(type(row["start_date"]))
         booking = Booking(row["id"], row["start_date"], row["end_date"], row["user_id"], row["space_id"])
         return booking
     
+    def find_bookings_by_user_id(self, user_id):
+        rows = self._connection.execute('SELECT * FROM bookings WHERE user_id=%s', [user_id])
+        bookings = []
+        for row in rows:
+            booking = Booking(row["id"], row["start_date"], row["end_date"], row["user_id"], row["space_id"])
+            bookings.append(booking)
+        return bookings
