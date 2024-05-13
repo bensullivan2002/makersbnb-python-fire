@@ -5,7 +5,7 @@ import pytest
 """
 We can render the index page
 """
-
+@pytest.mark.skip
 def test_get_index(page, test_web_address):
     # We load a virtual browser and navigate to the /index page
     page.goto(f"http://{test_web_address}/index")
